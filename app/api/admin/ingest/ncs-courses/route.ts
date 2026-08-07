@@ -65,13 +65,13 @@ export async function POST(req: NextRequest) {
     const hasMissingColumn = REAL_PUBLISHED_HEADERS.some((h) => !headersToTest.includes(h));
     const isReordered = headersToTest.some((h, idx) => h !== REAL_PUBLISHED_HEADERS[idx]);
 
-    if (hasAddedColumn || hasMissingColumn || isReordered) {
+    // HALT ONLY on added or missing columns
+    if (hasAddedColumn || hasMissingColumn) {
       let reason = 'SCHEMA_DRIFT';
       if (hasAddedColumn) reason = 'ADDED_COLUMN_DRIFT';
       else if (hasMissingColumn) reason = 'MISSING_COLUMN_DRIFT';
-      else if (isReordered) reason = 'REORDERED_COLUMNS_DRIFT';
 
-      const errorMsg = `SCHEMA DRIFT HALT (${reason}): Received headers do not strictly match published GOV.UK schema baseline.`;
+      const errorMsg = `SCHEMA DRIFT HALT (${reason}): Received headers do not match published GOV.UK schema baseline.`;
 
       db.prepare(`
         INSERT OR REPLACE INTO ingest_logs
@@ -91,6 +91,12 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    let warningMessage: string | null = null;
+    if (isReordered) {
+      warningMessage = 'WARNING: Columns reordered from baseline. Header-name mapping enabled — parsing proceeded safely.';
+      console.warn(warningMessage);
+    }
+
     // Live ingest from published GOV.UK URL
     const response = await fetch(PUBLISHED_NCS_URL);
     if (!response.ok) {
@@ -99,6 +105,13 @@ export async function POST(req: NextRequest) {
 
     const csvText = await response.text();
     const lines = csvText.split('\n').filter((l) => l.trim().length > 0);
+    const headerLine = lines[0].split(',').map((h) => h.trim().replace(/^"/, '').replace(/"$/, ''));
+
+    // Dynamic header map (parse by header name, resilient to reordering)
+    const headerMap: { [key: string]: number } = {};
+    headerLine.forEach((h, idx) => {
+      headerMap[h] = idx;
+    });
 
     let rowsProcessed = 0;
     const providerStmt = db.prepare(`
@@ -117,20 +130,20 @@ export async function POST(req: NextRequest) {
       // Process first 100 records for fast sync test
       for (let i = 1; i < Math.min(lines.length, 101); i++) {
         const row = lines[i].split(',').map((cell) => cell.replace(/^"/, '').replace(/"$/, '').trim());
-        if (row.length < 5) continue;
+        if (row.length < REAL_PUBLISHED_HEADERS.length) continue;
 
-        const ukprn = row[0];
-        const courseId = row[1];
-        const qan = row[3];
-        const title = row[4];
-        const deliveryMode = row[6];
-        const startDate = row[10];
-        const costGbp = parseFloat(row[13]) || 0.0;
-        const venueName = row[17];
-        const latitude = parseFloat(row[22]) || null;
-        const longitude = parseFloat(row[23]) || null;
-        const postcode = row[24];
-        const region = row[16] || 'England';
+        const ukprn = row[headerMap['PROVIDER_UKPRN'] ?? 0];
+        const courseId = row[headerMap['COURSE_ID'] ?? 1];
+        const qan = row[headerMap['LEARN_AIM_REF'] ?? 3]; // LEARN_AIM_REF maps to qualification qan
+        const title = row[headerMap['COURSE_NAME'] ?? 4];
+        const deliveryMode = row[headerMap['DELIVER_MODE'] ?? 6];
+        const startDate = row[headerMap['STARTDATE'] ?? 10];
+        const costGbp = parseFloat(row[headerMap['COST'] ?? 13]) || 0.0;
+        const venueName = row[headerMap['LOCATION_NAME'] ?? 17];
+        const latitude = parseFloat(row[headerMap['LOCATION_LATITUDE'] ?? 22]) || null;
+        const longitude = parseFloat(row[headerMap['LOCATION_LONGITUDE'] ?? 23]) || null;
+        const postcode = row[headerMap['LOCATION_POSTCODE'] ?? 24];
+        const region = row[headerMap['REGIONS'] ?? 16] || 'England';
 
         providerStmt.run(ukprn, `Provider ${ukprn}`, postcode, region);
         courseStmt.run(
@@ -165,6 +178,7 @@ export async function POST(req: NextRequest) {
       totalLinesInFile: lines.length - 1,
       rowsProcessedInBatch: rowsProcessed,
       headerCount: REAL_PUBLISHED_HEADERS.length,
+      warning: warningMessage,
     });
   } catch (error: any) {
     db.prepare(`
