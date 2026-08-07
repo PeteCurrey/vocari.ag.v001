@@ -8,7 +8,6 @@ db.pragma('journal_mode = WAL');
 
 export function initDb() {
   db.transaction(() => {
-    // Core Factual Tables (With Inline Provenance Columns)
     CREATE_SCHEMA_TABLES();
   })();
 }
@@ -295,7 +294,6 @@ function CREATE_SCHEMA_TABLES() {
   `);
 }
 
-// Initialize database schema on load
 initDb();
 
 export function queryWithRls(table: string, isServiceRole: boolean = false) {
@@ -305,4 +303,106 @@ export function queryWithRls(table: string, isServiceRole: boolean = false) {
   return db
     .prepare(`SELECT * FROM ${table} WHERE confidence = 'confirmed' AND verified_at IS NOT NULL`)
     .all();
+}
+
+// Tier-A Publish Gate Function
+export function publishOccupation(occupationId: string) {
+  const occ = db.prepare('SELECT * FROM occupations WHERE id = ?').get(occupationId) as any;
+  if (!occ) {
+    throw new Error(`Occupation not found: ${occupationId}`);
+  }
+
+  if (occ.tier === 'A') {
+    // Check routes
+    const unconfirmedRoutes = db
+      .prepare(
+        `SELECT COUNT(*) as count FROM routes WHERE occupation_id = ? AND (confidence != 'confirmed' OR verified_by IS NULL OR verified_at IS NULL)`
+      )
+      .get(occupationId) as any;
+
+    if (unconfirmedRoutes.count > 0) {
+      throw new Error(
+        `TIER_A_PUBLISH_GATE_VIOLATION: Occupation ${occupationId} (Tier A) cannot be published because ${unconfirmedRoutes.count} route(s) are unconfirmed or unverified.`
+      );
+    }
+
+    // Check steps
+    const unconfirmedSteps = db
+      .prepare(
+        `SELECT COUNT(*) as count FROM steps s JOIN routes r ON s.route_id = r.id WHERE r.occupation_id = ? AND (s.confidence != 'confirmed' OR s.verified_by IS NULL OR s.verified_at IS NULL)`
+      )
+      .get(occupationId) as any;
+
+    if (unconfirmedSteps.count > 0) {
+      throw new Error(
+        `TIER_A_PUBLISH_GATE_VIOLATION: Occupation ${occupationId} (Tier A) cannot be published because ${unconfirmedSteps.count} step(s) are unconfirmed or unverified.`
+      );
+    }
+
+    // Check requirements
+    const unconfirmedReqs = db
+      .prepare(
+        `SELECT COUNT(*) as count FROM requirements req JOIN steps s ON req.step_id = s.id JOIN routes r ON s.route_id = r.id WHERE r.occupation_id = ? AND (req.confidence != 'confirmed' OR req.verified_by IS NULL OR req.verified_at IS NULL)`
+      )
+      .get(occupationId) as any;
+
+    if (unconfirmedReqs.count > 0) {
+      throw new Error(
+        `TIER_A_PUBLISH_GATE_VIOLATION: Occupation ${occupationId} (Tier A) cannot be published because ${unconfirmedReqs.count} requirement(s) are unconfirmed or unverified.`
+      );
+    }
+
+    // Check registration requirements
+    const unconfirmedRegReqs = db
+      .prepare(
+        `SELECT COUNT(*) as count FROM registration_requirements WHERE occupation_id = ? AND (confidence != 'confirmed' OR verified_by IS NULL OR verified_at IS NULL)`
+      )
+      .get(occupationId) as any;
+
+    if (unconfirmedRegReqs.count > 0) {
+      throw new Error(
+        `TIER_A_PUBLISH_GATE_VIOLATION: Occupation ${occupationId} (Tier A) cannot be published because ${unconfirmedRegReqs.count} registration requirement(s) are unconfirmed or unverified.`
+      );
+    }
+  }
+
+  db.prepare('UPDATE occupations SET published = 1, updated_at = CURRENT_TIMESTAMP WHERE id = ?').run(occupationId);
+  return { success: true, published: true, id: occupationId };
+}
+
+// Queue Approval Function with Review Due Logic
+export function approveQueueItem(params: {
+  table: string;
+  id: string;
+  verifiedBy: string;
+  tier?: 'A' | 'B' | 'C';
+  sourceName?: string;
+  sourceUrl?: string;
+}) {
+  const { table, id, verifiedBy, tier = 'B', sourceName, sourceUrl } = params;
+  const verifiedAt = new Date().toISOString();
+
+  // Review Due Period: Tier A = +90 days, Tier B = +180 days, Tier C = +365 days
+  let daysToAdd = 180;
+  if (tier === 'A') daysToAdd = 90;
+  if (tier === 'B') daysToAdd = 180;
+  if (tier === 'C') daysToAdd = 365;
+
+  const reviewDueDate = new Date(Date.now() + daysToAdd * 86400 * 1000).toISOString().split('T')[0];
+
+  const stmt = db.prepare(`
+    UPDATE ${table}
+    SET confidence = 'confirmed',
+        verified_by = ?,
+        verified_at = ?,
+        review_due = ?,
+        source_name = COALESCE(?, source_name),
+        source_url = COALESCE(?, source_url),
+        updated_at = CURRENT_TIMESTAMP
+    WHERE id = ?
+  `);
+
+  stmt.run(verifiedBy, verifiedAt, reviewDueDate, sourceName || null, sourceUrl || null, id);
+
+  return db.prepare(`SELECT * FROM ${table} WHERE id = ?`).get(id);
 }
