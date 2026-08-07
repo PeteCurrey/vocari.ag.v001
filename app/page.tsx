@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { SurfaceProvider } from '@/lib/surface/SurfaceContext';
 import { Button } from '@/components/primitives/Button';
 import { Card } from '@/components/primitives/Card';
@@ -25,177 +26,290 @@ export default function HomePage() {
       <div className="min-h-screen bg-ivory text-charcoal flex flex-col font-sans selection:bg-cobalt selection:text-white">
         
         {/* Navigation Header */}
-        <header className="border-b border-silver/40 bg-ivory/80 backdrop-blur-md sticky top-0 z-50">
+        <header className="border-b border-silver/40 bg-ivory sticky top-0 z-50">
           <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-3 group">
-              <div className="w-8 h-8 rounded-lg bg-cobalt flex items-center justify-center text-white font-mono font-bold text-lg shadow-sm group-hover:scale-105 transition-transform">
-                V
-              </div>
-              <span className="font-display text-2xl font-bold text-charcoal tracking-tight">vocari</span>
+            <Link href="/" className="flex items-center gap-4 group">
+              <span className="font-sans text-xl font-bold tracking-widest text-charcoal uppercase">VOCARI</span>
+              <span className="hidden sm:inline-block text-silver font-mono text-xs">|</span>
+              <span className="hidden sm:inline-block font-mono text-[10px] uppercase tracking-widest text-graphite/60">
+                PRECISION · PATHWAYS · IMPACT
+              </span>
             </Link>
 
-            <nav className="hidden md:flex items-center gap-8 font-sans font-medium text-sm text-graphite">
-              <Link href="/careers" className="hover:text-cobalt transition-colors">Career Pathways</Link>
-              <Link href="/cost" className="hover:text-cobalt transition-colors">£0 to Qualified Calculator</Link>
-              <Link href="/courses" className="hover:text-cobalt transition-colors font-mono text-xs uppercase bg-warm-stone px-2.5 py-1 rounded-full text-graphite">Course Directory</Link>
-              <Link href="/partners" className="hover:text-cobalt transition-colors">For Providers</Link>
+            <nav className="hidden md:flex items-center gap-8 font-mono text-xs uppercase tracking-wider text-graphite">
+              <Link href="/careers" className="hover:text-cobalt transition-colors">Pathways Index</Link>
+              <Link href="/cost" className="hover:text-cobalt transition-colors">Funding Engine</Link>
+              <Link href="/courses" className="hover:text-cobalt transition-colors">Course Directory</Link>
+              <Link href="/partners" className="hover:text-cobalt transition-colors">Enterprise</Link>
             </nav>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               <Link href="/admin">
-                <Button variant="secondary" className="hidden sm:inline-flex text-xs font-mono">
-                  Admin Gate
-                </Button>
+                <span className="font-mono text-[11px] uppercase tracking-wider text-graphite/70 border border-silver/60 px-3 py-1.5 hover:border-charcoal transition-colors">
+                  VERIFICATION GATE
+                </span>
               </Link>
               <Link href="/careers">
-                <Button variant="primary">Explore Careers →</Button>
+                <Button variant="primary">EXPLORE PATHWAYS →</Button>
               </Link>
             </div>
           </div>
         </header>
 
-        {/* Hero Section */}
-        <section className="relative overflow-hidden pt-16 pb-20 md:pt-24 md:pb-32 px-6">
+        {/* HERO SECTION — Avorria Precision Luxe Style */}
+        <section className="relative pt-12 pb-16 md:pt-20 md:pb-24 px-6 border-b border-silver/40">
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
-            <div className="lg:col-span-7 space-y-8">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-warm-stone/80 border border-silver/60 text-graphite font-mono text-xs">
-                <span className="w-2 h-2 rounded-full bg-coral animate-pulse" />
-                <span>Verified UK Government Open Data · October 2025 Standard</span>
+            {/* Left Copy Column */}
+            <div className="lg:col-span-6 space-y-8">
+              
+              <div className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-widest text-graphite/70">
+                <span className="w-1.5 h-1.5 bg-cobalt inline-block" />
+                <span>PRECISION · QUALIFICATIONS · GOVERNANCE</span>
               </div>
 
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-charcoal tracking-tight leading-[1.08]">
-                Clear Pathways from <span className="text-cobalt underline decoration-coral/40 decoration-4">£0 to Qualified</span>.
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-display text-charcoal tracking-tight leading-[1.02]">
+                Clear Pathways from £0 to Qualified.
               </h1>
 
-              <p className="text-lg md:text-xl text-graphite/90 leading-relaxed max-w-2xl">
-                Discover genuine UK career routes, exact qualification costs, and funding eligibility. Every route step verified against Ofqual, Skills England, and NHS regulatory standards.
+              <p className="text-base md:text-lg text-graphite/90 leading-relaxed font-sans max-w-xl">
+                Vocari architects transparent UK career routes, exact qualification costs, and government funding eligibility. Every route step is verified directly against Ofqual, Skills England, and statutory regulatory bodies.
               </p>
 
-              {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
                 <Link href="/careers">
-                  <Button variant="primary" className="text-base px-8 py-3.5 w-full sm:w-auto justify-center shadow-lg shadow-cobalt/20">
-                    Browse All Pathways →
+                  <Button variant="primary" className="w-full sm:w-auto justify-center">
+                    EXPLORE PATHWAYS →
                   </Button>
                 </Link>
                 <Link href="/cost">
-                  <Button variant="secondary" className="text-base px-8 py-3.5 w-full sm:w-auto justify-center">
-                    Calculate My Funding Eligibility
+                  <Button variant="secondary" className="w-full sm:w-auto justify-center">
+                    CALCULATE FUNDING ELIGIBILITY
                   </Button>
                 </Link>
               </div>
 
-              {/* Quick Search Tags */}
-              <div className="pt-4 border-t border-silver/40">
-                <span className="font-mono text-xs uppercase tracking-wider text-graphite/60 block mb-3">Popular Career Pathways:</span>
-                <div className="flex flex-wrap gap-2">
+              {/* Minimal Search Tags */}
+              <div className="pt-6 border-t border-silver/40">
+                <span className="font-mono text-[10px] uppercase tracking-widest text-graphite/60 block mb-3">
+                  VERIFIED UK CAREER DIRECTORY:
+                </span>
+                <div className="flex flex-wrap gap-2 font-mono text-xs">
                   {['Electrician', 'Adult Care Worker', 'Registered Nurse', 'Software Engineer', 'Plumber'].map((tag) => (
                     <Link
                       key={tag}
                       href={`/careers?q=${encodeURIComponent(tag)}`}
-                      className="text-xs bg-white hover:bg-warm-stone border border-silver/60 px-3 py-1.5 rounded-lg text-graphite transition-colors font-medium shadow-2xs"
+                      className="border border-silver/60 px-3 py-1 text-graphite hover:border-charcoal hover:text-charcoal transition-colors uppercase tracking-wider"
                     >
                       {tag}
                     </Link>
                   ))}
                 </div>
               </div>
+
             </div>
 
-            {/* Hero Interactive Metric Cards Stack */}
-            <div className="lg:col-span-5 space-y-4">
-              <div className="relative p-2 bg-warm-stone/50 border border-silver/60 rounded-2xl shadow-xl">
-                <Card className="space-y-6">
-                  <div className="flex items-center justify-between border-b border-silver/40 pb-4">
-                    <div>
-                      <span className="font-mono text-xs uppercase text-cobalt font-bold tracking-wider">FEATURED PATHWAY</span>
-                      <h3 className="text-xl font-bold text-charcoal">Electrotechnical Apprenticeship</h3>
-                    </div>
-                    <Badge status="confirmed">Tier B Verified</Badge>
+            {/* Right Architectural Image Frame */}
+            <div className="lg:col-span-6">
+              <div className="relative border border-silver/50 p-2 bg-white">
+                <div className="relative aspect-[16/10] overflow-hidden bg-warm-stone">
+                  <Image
+                    src="/images/architecture_facade.jpg"
+                    alt="Institutional Precision Architecture"
+                    fill
+                    className="object-cover grayscale contrast-[1.05]"
+                    priority
+                  />
+                  <div className="absolute inset-0 bg-charcoal/10" />
+                  
+                  {/* Overlay Badge */}
+                  <div className="absolute bottom-4 left-4 bg-charcoal text-white px-4 py-2 font-mono text-[10px] uppercase tracking-widest border border-white/20">
+                    INSTITUTIONAL OPEN DATA · OFQUAL REGISTER 2026
                   </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <MetricCard
-                      label="Starting Salary"
-                      value="£26,500"
-                      subtext="Average entry wage"
-                      sourceStamp={{
-                        sourceName: 'ONS ASHE 2025',
-                        sourceUrl: 'https://www.jib.org.uk/',
-                        verifiedAt: '2025-10-01',
-                      }}
-                    />
-                    <MetricCard
-                      label="Time to Qualify"
-                      value="48 Months"
-                      subtext="Earn while learning"
-                      sourceStamp={{
-                        sourceName: 'IfATE Standard ST0152',
-                        sourceUrl: 'https://www.instituteforapprenticeships.org/',
-                        verifiedAt: '2025-10-01',
-                      }}
-                    />
-                  </div>
-
-                  <div className="p-4 bg-ivory rounded-lg border border-silver/40 text-xs space-y-2">
-                    <div className="font-mono text-graphite/70 font-semibold uppercase">Step 01 / 03</div>
-                    <div className="font-bold text-charcoal text-sm">Level 3 Diploma in Electrotechnical Services</div>
-                    <p className="text-graphite">Full 100% funding available via Apprenticeship Levy or Adult Skills Fund.</p>
-                  </div>
-                </Card>
+                </div>
               </div>
             </div>
 
           </div>
         </section>
 
-        {/* Verified Occupations Grid */}
-        <section className="bg-warm-stone/40 py-20 px-6 border-y border-silver/40">
+        {/* TRUSTED REGULATORS STRIP (Dark Band) */}
+        <section className="bg-charcoal text-ivory py-8 px-6 border-b border-graphite">
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <span className="font-mono text-[10px] uppercase tracking-widest text-silver/60">
+              TRUSTED DATA PROVENANCE & REGULATORY SOURCES
+            </span>
+
+            <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 font-mono text-xs uppercase tracking-wider text-silver/80">
+              <span className="hover:text-white transition-colors">OFQUAL REGISTER</span>
+              <span className="text-silver/30">•</span>
+              <span className="hover:text-white transition-colors">SKILLS ENGLAND</span>
+              <span className="text-silver/30">•</span>
+              <span className="hover:text-white transition-colors">NHS ENGLAND</span>
+              <span className="text-silver/30">•</span>
+              <span className="hover:text-white transition-colors">INSTITUTE FOR APPRENTICESHIPS</span>
+              <span className="text-silver/30">•</span>
+              <span className="hover:text-white transition-colors">ONS ASHE</span>
+            </div>
+          </div>
+        </section>
+
+        {/* METHODOLOGY / OUR APPROACH SECTION */}
+        <section className="py-20 px-6 bg-ivory border-b border-silver/40">
+          <div className="max-w-7xl mx-auto space-y-16">
+            
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
+              <div className="md:col-span-8 space-y-3">
+                <span className="font-mono text-[10px] uppercase tracking-widest text-cobalt font-medium">
+                  OUR METHODOLOGY
+                </span>
+                <h2 className="text-3xl md:text-5xl font-display text-charcoal">
+                  Precision at Every Level.
+                </h2>
+                <p className="text-graphite text-base max-w-2xl">
+                  Our integrated framework combines official government API feeds with strict three-tier verification rules to deliver undisputed accuracy.
+                </p>
+              </div>
+
+              <div className="md:col-span-4 md:text-right font-mono text-xs text-graphite/60">
+                <span>01  —  03 STEPS</span>
+              </div>
+            </div>
+
+            {/* 3 Precision Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <InsightCard
+                category="DATA INTEGRITY"
+                date="VERIFIED OCT 2025"
+                title="Exact Cost & Duration Transparency"
+                excerpt="We calculate mandatory course fees, exam costs, and wage earnings during training so you know your net financial position down to the pound."
+                href="/cost"
+              />
+              <InsightCard
+                category="GOVERNANCE"
+                date="VERIFIED OCT 2025"
+                title="Dual Scheme Funding Resolution"
+                excerpt="Our deterministic engine resolves Advanced Learner Loans (ALL) and Lifelong Learning Entitlement (LLE) rules by exact course start date."
+                href="/cost"
+              />
+              <InsightCard
+                category="QUALITY GATE"
+                date="VERIFIED OCT 2025"
+                title="Strict Tier-A Verification Gate"
+                excerpt="Statutory professions like Registered Nursing require explicit human sign-off before publication. No unverified or synthetic placeholders permitted."
+                href="/about"
+              />
+            </div>
+
+          </div>
+        </section>
+
+        {/* FEATURED CASE STUDY (Dark Architectural Band) */}
+        <section className="bg-charcoal text-ivory py-20 px-6 border-b border-graphite">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <div className="lg:col-span-6 space-y-8">
+              <span className="font-mono text-[10px] uppercase tracking-widest text-silver/60">
+                FEATURED VERIFIED PATHWAY
+              </span>
+
+              <h2 className="text-3xl md:text-5xl font-display text-white">
+                Electrotechnical Apprenticeship Standard
+              </h2>
+
+              <p className="text-silver/80 text-base leading-relaxed font-sans">
+                Full 48-month pathway to becoming a qualified Electrician in England. Combines Level 3 Electrotechnical Diploma with practical site portfolio and AM2 end-point assessment.
+              </p>
+
+              {/* Corporate Stat Rows */}
+              <div className="grid grid-cols-3 gap-6 pt-6 border-t border-white/10">
+                <div>
+                  <div className="text-3xl font-sans font-light text-white">£26,500</div>
+                  <div className="font-mono text-[10px] uppercase tracking-widest text-silver/60 mt-1">STARTING SALARY</div>
+                </div>
+                <div>
+                  <div className="text-3xl font-sans font-light text-white">48 Mths</div>
+                  <div className="font-mono text-[10px] uppercase tracking-widest text-silver/60 mt-1">DURATION</div>
+                </div>
+                <div>
+                  <div className="text-3xl font-sans font-light text-cobalt">100%</div>
+                  <div className="font-mono text-[10px] uppercase tracking-widest text-silver/60 mt-1">FUNDED ELIGIBLE</div>
+                </div>
+              </div>
+
+              <div className="pt-4">
+                <Link href="/careers/electrician">
+                  <Button variant="primary">VIEW PATHWAY SPECIFICATION →</Button>
+                </Link>
+              </div>
+            </div>
+
+            {/* Right Architectural Image Frame */}
+            <div className="lg:col-span-6">
+              <div className="relative border border-white/10 p-2 bg-[#181A1E]">
+                <div className="relative aspect-[16/10] overflow-hidden bg-graphite">
+                  <Image
+                    src="/images/corporate_infrastructure.jpg"
+                    alt="Corporate Infrastructure"
+                    fill
+                    className="object-cover grayscale contrast-[1.1]"
+                  />
+                  <div className="absolute inset-0 bg-charcoal/30" />
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        {/* VERIFIED OCCUPATIONS DIRECTORY GRID */}
+        <section className="py-20 px-6 bg-warm-stone/30 border-b border-silver/40">
           <div className="max-w-7xl mx-auto space-y-12">
             
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
               <div>
-                <span className="font-mono text-xs text-cobalt uppercase tracking-widest font-bold">PROVENANCE-CHECKED DIRECTORY</span>
-                <h2 className="text-3xl md:text-4xl font-display font-bold text-charcoal mt-1">
-                  Explore Verified Career Pathways
+                <span className="font-mono text-[10px] uppercase tracking-widest text-cobalt font-medium">
+                  DIRECTORY INDEX
+                </span>
+                <h2 className="text-3xl md:text-4xl font-display text-charcoal mt-1">
+                  Explore Verified UK Pathways
                 </h2>
               </div>
-              <Link href="/careers" className="text-cobalt font-semibold hover:underline text-sm flex items-center gap-1">
-                View all career pathways →
+              <Link href="/careers" className="font-mono text-xs uppercase tracking-wider text-cobalt hover:underline">
+                VIEW ALL CAREERS (INDEX) →
               </Link>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {occupations.map((occ) => (
                 <Link key={occ.id} href={`/careers/${occ.id}`} className="group">
-                  <Card className="h-full flex flex-col justify-between space-y-6 group-hover:border-cobalt/60 group-hover:shadow-md transition-all">
+                  <Card className="h-full flex flex-col justify-between space-y-6">
                     <div className="space-y-4">
                       <div className="flex items-center justify-between">
                         <Badge status={occ.confidence === 'confirmed' ? 'confirmed' : 'provisional'}>
-                          Tier {occ.tier} Verified
+                          TIER {occ.tier} VERIFIED
                         </Badge>
-                        <span className="font-mono text-xs text-graphite/60">{occ.route_count} Route{occ.route_count !== 1 ? 's' : ''}</span>
+                        <span className="font-mono text-[11px] text-graphite/60">{occ.route_count} ROUTE{occ.route_count !== 1 ? 'S' : ''}</span>
                       </div>
 
-                      <h3 className="text-2xl font-bold text-charcoal group-hover:text-cobalt transition-colors">
+                      <h3 className="text-xl font-medium text-charcoal group-hover:text-cobalt transition-colors">
                         {occ.title}
                       </h3>
 
-                      <p className="text-sm text-graphite line-clamp-3 leading-relaxed">
+                      <p className="text-xs text-graphite line-clamp-3 leading-relaxed">
                         {occ.summary}
                       </p>
                     </div>
 
-                    <div className="pt-4 border-t border-silver/40 space-y-3">
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="text-graphite font-mono">Entry Salary:</span>
-                        <span className="font-bold text-charcoal font-mono">£{occ.salary_entry?.toLocaleString()}</span>
+                    <div className="pt-4 border-t border-silver/30 space-y-3 font-mono text-xs">
+                      <div className="flex items-center justify-between">
+                        <span className="text-graphite/60">ENTRY SALARY:</span>
+                        <span className="font-medium text-charcoal">£{occ.salary_entry?.toLocaleString()}</span>
                       </div>
 
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="text-graphite font-mono">Experienced Salary:</span>
-                        <span className="font-bold text-cobalt font-mono">£{occ.salary_experienced?.toLocaleString()}</span>
+                      <div className="flex items-center justify-between">
+                        <span className="text-graphite/60">EXPERIENCED SALARY:</span>
+                        <span className="font-medium text-cobalt">£{occ.salary_experienced?.toLocaleString()}</span>
                       </div>
 
                       <SourceStamp
@@ -213,80 +327,38 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* How Vocari Works Section */}
-        <section className="py-20 px-6 bg-ivory">
-          <div className="max-w-7xl mx-auto space-y-12">
-            
-            <div className="text-center max-w-2xl mx-auto space-y-3">
-              <span className="font-mono text-xs text-cobalt uppercase tracking-widest font-bold">OUR METHODOLOGY</span>
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-charcoal">
-                How Vocari Eliminates Career Uncertainty
-              </h2>
-              <p className="text-graphite text-base">
-                We combine official government registries with strict human review rules so you get facts, not marketing fluff.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <InsightCard
-                category="Transparency"
-                date="Verified Oct 2025"
-                title="Exact Cost & Duration Transparency"
-                excerpt="We calculate course fees, exam costs, and wage earnings during training so you know your exact net financial position."
-                href="/cost"
-              />
-              <InsightCard
-                category="Government Funding"
-                date="Verified Oct 2025"
-                title="Dual Scheme Funding Resolution"
-                excerpt="Our engine resolves Advanced Learner Loans (ALL) and Lifelong Learning Entitlement (LLE) by course start date."
-                href="/cost"
-              />
-              <InsightCard
-                category="Quality Gate"
-                date="Verified Oct 2025"
-                title="No Unverified Information Policy"
-                excerpt="Every salary figure, course aim reference, and regulatory body requirement carries a verified date and source link."
-                href="/about"
-              />
-            </div>
-
-          </div>
-        </section>
-
-        {/* Footer */}
+        {/* FOOTER */}
         <footer className="bg-charcoal text-ivory py-16 px-6 border-t border-graphite mt-auto">
-          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 text-sm">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 text-xs font-mono">
             <div className="space-y-4 md:col-span-2">
               <div className="flex items-center gap-3">
-                <div className="w-7 h-7 rounded bg-cobalt flex items-center justify-center text-white font-mono font-bold">
-                  V
-                </div>
-                <span className="font-display text-xl font-bold tracking-tight text-white">vocari</span>
+                <span className="text-lg font-bold tracking-widest text-white uppercase font-sans">VOCARI</span>
+                <span className="text-silver/40">|</span>
+                <span className="text-[10px] text-silver/60 uppercase tracking-widest">CAREER PATHWAY PLATFORM</span>
               </div>
-              <p className="text-silver/80 max-w-md leading-relaxed text-xs">
+              <p className="text-silver/70 max-w-md leading-relaxed text-[11px] font-sans">
                 Vocari is the UK’s open career pathway directory. Powered by official Ofqual Register data, Department for Education transparency CSVs, and Skills England Open Data under the Open Government Licence v3.0.
               </p>
-              <p className="text-silver/50 font-mono text-[11px]">
-                © {new Date().getFullYear()} Vocari Platform. All rights reserved.
+              <p className="text-silver/40 text-[10px]">
+                © {new Date().getFullYear()} VOCARI PLATFORM. ALL RIGHTS RESERVED.
               </p>
             </div>
 
             <div className="space-y-3">
-              <h4 className="font-mono text-xs text-silver uppercase tracking-wider font-bold">Consumer Tools</h4>
-              <ul className="space-y-2 text-silver/80 font-mono text-xs">
-                <li><Link href="/careers" className="hover:text-white transition-colors">Career Pathways</Link></li>
-                <li><Link href="/cost" className="hover:text-white transition-colors">£0 to Qualified Calculator</Link></li>
-                <li><Link href="/courses" className="hover:text-white transition-colors">Course Directory</Link></li>
+              <h4 className="text-[10px] text-silver uppercase tracking-widest">PLATFORM TOOLS</h4>
+              <ul className="space-y-2 text-silver/70">
+                <li><Link href="/careers" className="hover:text-white transition-colors">CAREER PATHWAYS</Link></li>
+                <li><Link href="/cost" className="hover:text-white transition-colors">FUNDING CALCULATOR</Link></li>
+                <li><Link href="/courses" className="hover:text-white transition-colors">COURSE DIRECTORY</Link></li>
               </ul>
             </div>
 
             <div className="space-y-3">
-              <h4 className="font-mono text-xs text-silver uppercase tracking-wider font-bold">Governance & Quality</h4>
-              <ul className="space-y-2 text-silver/80 font-mono text-xs">
-                <li><Link href="/admin" className="hover:text-white transition-colors">Verification Admin (/admin)</Link></li>
-                <li><Link href="/partners" className="hover:text-white transition-colors">Partner Portal</Link></li>
-                <li><Link href="/about" className="hover:text-white transition-colors">Open Data Policy</Link></li>
+              <h4 className="text-[10px] text-silver uppercase tracking-widest">GOVERNANCE & AUDIT</h4>
+              <ul className="space-y-2 text-silver/70">
+                <li><Link href="/admin" className="hover:text-white transition-colors">VERIFICATION GATE (/admin)</Link></li>
+                <li><Link href="/partners" className="hover:text-white transition-colors">ENTERPRISE PORTAL</Link></li>
+                <li><Link href="/about" className="hover:text-white transition-colors">OPEN DATA POLICY</Link></li>
               </ul>
             </div>
           </div>

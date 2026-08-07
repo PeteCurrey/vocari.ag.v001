@@ -1,19 +1,20 @@
 import type { Metadata } from 'next';
-import { Inter_Tight, Instrument_Serif, JetBrains_Mono } from 'next/font/google';
+import { Space_Grotesk, DM_Serif_Display, JetBrains_Mono } from 'next/font/google';
 import '@/app/globals.css';
 import { MotionProvider } from '@/components/providers/MotionProvider';
 import { SurfaceProvider } from '@/lib/surface/SurfaceContext';
 
-const interTight = Inter_Tight({
+const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
-  variable: '--font-inter-tight',
+  variable: '--font-space-grotesk',
   display: 'swap',
+  weight: ['300', '400', '500', '600', '700'],
 });
 
-const instrumentSerif = Instrument_Serif({
+const dmSerifDisplay = DM_Serif_Display({
   weight: '400',
   subsets: ['latin'],
-  variable: '--font-instrument-serif',
+  variable: '--font-dm-serif',
   display: 'swap',
 });
 
@@ -21,6 +22,7 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--font-jetbrains-mono',
   display: 'swap',
+  weight: ['300', '400', '500'],
 });
 
 export const metadata: Metadata = {
@@ -36,7 +38,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${interTight.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable}`}
+      className={`${spaceGrotesk.variable} ${dmSerifDisplay.variable} ${jetbrainsMono.variable}`}
     >
       <body className="bg-ivory text-charcoal antialiased min-h-screen">
         <MotionProvider>

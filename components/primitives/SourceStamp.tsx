@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { ExternalLink, AlertTriangle } from 'lucide-react';
 
 export interface SourceStampProps {
   sourceName: string;
@@ -18,7 +17,6 @@ export function SourceStamp({
   reviewDue,
   className = '',
 }: SourceStampProps) {
-  // Check if review due date has passed
   const isStale = React.useMemo(() => {
     if (!reviewDue) return false;
     const due = new Date(reviewDue).getTime();
@@ -33,30 +31,28 @@ export function SourceStamp({
 
   if (isStale) {
     return (
-      <div className={`inline-flex items-center space-x-1.5 font-mono text-xs text-coral font-semibold ${className}`}>
-        <AlertTriangle className="w-3.5 h-3.5 flex-shrink-0" />
-        <span>UNVERIFIED — confirm before acting</span>
+      <div className={`inline-flex items-center space-x-1 font-mono text-[10px] uppercase tracking-widest text-coral ${className}`}>
+        <span>[!] REVIEW DUE — CONFIRM DIRECTLY WITH REGULATOR</span>
       </div>
     );
   }
 
   return (
-    <div className={`inline-flex items-center space-x-1 font-mono text-[11px] uppercase tracking-wider text-silver/80 ${className}`}>
-      <span>SOURCE:</span>
+    <div className={`inline-flex items-center flex-wrap gap-1 font-mono text-[10px] uppercase tracking-widest text-graphite/60 ${className}`}>
+      <span>SRC:</span>
       {sourceUrl ? (
         <a
           href={sourceUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center hover:underline text-cobalt font-medium"
+          className="hover:underline text-cobalt font-medium"
         >
-          <span>{sourceName}</span>
-          <ExternalLink className="w-3 h-3 ml-0.5" />
+          {sourceName} ↗
         </a>
       ) : (
         <span className="font-medium text-graphite">{sourceName}</span>
       )}
-      <span className="text-silver/40">·</span>
+      <span>·</span>
       <span>{formattedDate}</span>
     </div>
   );

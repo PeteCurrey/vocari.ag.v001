@@ -12,17 +12,16 @@ export interface BadgeProps {
 export function Badge({ children, status = 'confirmed', className = '' }: BadgeProps) {
   const { isConsumer } = useSurface();
 
-  let statusStyles = 'bg-cobalt/10 text-cobalt border-cobalt/20';
+  let statusStyles = 'border-cobalt/40 text-cobalt bg-transparent';
 
   if (status === 'stale' || status === 'provisional') {
-    statusStyles = 'bg-coral/10 text-coral border-coral/30';
+    statusStyles = 'border-coral/40 text-coral bg-transparent';
   } else if (status === 'inferred') {
-    statusStyles = isConsumer ? 'bg-warm-stone text-graphite border-silver' : 'bg-graphite text-silver border-silver/20';
+    statusStyles = isConsumer ? 'border-silver text-graphite bg-transparent' : 'border-silver/20 text-silver bg-transparent';
   }
 
   return (
-    <span className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-mono uppercase tracking-wider font-semibold border ${statusStyles} ${className}`}>
-      <span className={`w-1.5 h-1.5 rounded-full mr-1.5 ${status === 'stale' || status === 'provisional' ? 'bg-coral' : status === 'inferred' ? 'bg-silver' : 'bg-cobalt'}`} />
+    <span className={`inline-flex items-center px-2 py-0.5 text-[10px] font-mono uppercase tracking-widest border ${statusStyles} ${className}`}>
       {children}
     </span>
   );

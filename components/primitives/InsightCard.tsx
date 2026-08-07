@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { useSurface } from '@/lib/surface/SurfaceContext';
-import { ArrowRight, BookOpen } from 'lucide-react';
 
 export interface InsightCardProps {
   title: string;
@@ -24,24 +23,23 @@ export function InsightCard({
   const { isConsumer } = useSurface();
 
   const containerStyles = isConsumer
-    ? 'group block bg-white border border-silver/60 rounded-xl p-6 shadow-sm hover:shadow-md hover:border-cobalt/40 transition-all'
-    : 'group block bg-graphite/40 border border-silver/10 rounded-lg p-5 hover:border-silver/30 transition-all text-ivory';
+    ? 'group block bg-white border border-silver/50 p-6 transition-all hover:border-graphite'
+    : 'group block bg-[#181A1E] border border-white/10 p-6 transition-all hover:border-white/30 text-ivory';
 
   return (
     <a href={href} className={`${containerStyles} ${className}`}>
-      <div className="flex items-center justify-between text-xs font-mono mb-3">
-        <span className="uppercase tracking-wider text-cobalt font-semibold flex items-center gap-1">
-          <BookOpen className="w-3.5 h-3.5" />
+      <div className="flex items-center justify-between text-[10px] font-mono mb-4">
+        <span className="uppercase tracking-widest text-cobalt font-medium">
           {category}
         </span>
         <span className={isConsumer ? 'text-graphite/60' : 'text-silver/60'}>{date}</span>
       </div>
-      <h3 className={`font-display font-semibold text-lg mb-2 group-hover:text-cobalt transition-colors ${isConsumer ? 'text-charcoal' : 'text-ivory'}`}>
+      <h3 className={`font-sans font-medium text-lg mb-2 group-hover:text-cobalt transition-colors ${isConsumer ? 'text-charcoal' : 'text-ivory'}`}>
         {title}
       </h3>
-      <p className={`text-sm line-clamp-2 ${isConsumer ? 'text-graphite' : 'text-silver/80'}`}>{excerpt}</p>
-      <div className="mt-4 inline-flex items-center text-xs font-semibold text-cobalt group-hover:translate-x-1 transition-transform">
-        Read Insight <ArrowRight className="w-3.5 h-3.5 ml-1" />
+      <p className={`text-xs line-clamp-3 leading-relaxed ${isConsumer ? 'text-graphite' : 'text-silver/80'}`}>{excerpt}</p>
+      <div className="mt-6 pt-4 border-t border-silver/30 inline-flex items-center text-[11px] font-mono uppercase tracking-widest text-cobalt group-hover:translate-x-1 transition-transform">
+        READ INSIGHT →
       </div>
     </a>
   );

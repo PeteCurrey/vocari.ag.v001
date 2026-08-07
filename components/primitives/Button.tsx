@@ -2,51 +2,39 @@
 
 import React from 'react';
 import { useSurface } from '@/lib/surface/SurfaceContext';
-import { ArrowRight } from 'lucide-react';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'text-link';
   children: React.ReactNode;
-  showArrow?: boolean;
 }
 
 export function Button({
   variant = 'primary',
   children,
-  showArrow = true,
   className = '',
   ...props
 }: ButtonProps) {
   const { isConsumer } = useSurface();
 
-  let baseStyles = 'inline-flex items-center justify-center font-sans font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-cobalt focus:ring-offset-2';
-  
+  let base =
+    'inline-flex items-center gap-2 font-sans font-medium tracking-tight ' +
+    'transition-all duration-250 focus:outline-none focus-visible:ring-1 focus-visible:ring-cobalt';
+
   if (variant === 'primary') {
-    if (isConsumer) {
-      baseStyles += ' bg-cobalt text-ivory hover:opacity-90 px-6 py-3 rounded-md shadow-sm';
-    } else {
-      baseStyles += ' bg-cobalt text-ivory hover:bg-opacity-90 px-4 py-2 rounded text-sm';
-    }
+    base += isConsumer
+      ? ' bg-cobalt text-white text-sm px-5 py-2.5 hover:bg-charcoal'
+      : ' bg-cobalt text-white text-xs px-4 py-2 hover:bg-charcoal';
   } else if (variant === 'secondary') {
-    if (isConsumer) {
-      baseStyles += ' bg-warm-stone text-charcoal hover:bg-silver px-6 py-3 rounded-md border border-silver';
-    } else {
-      baseStyles += ' bg-graphite text-ivory hover:bg-opacity-80 px-4 py-2 rounded text-sm border border-silver/20';
-    }
+    base += isConsumer
+      ? ' border border-charcoal text-charcoal text-sm px-5 py-2.5 hover:bg-charcoal hover:text-white'
+      : ' border border-silver/30 text-ivory text-xs px-4 py-2 hover:border-silver/60';
   } else if (variant === 'text-link') {
-    if (isConsumer) {
-      baseStyles += ' text-cobalt hover:underline p-0 underline-offset-4';
-    } else {
-      baseStyles += ' text-cobalt hover:text-ivory p-0 underline-offset-4 text-sm';
-    }
+    base += ' text-cobalt text-sm hover:text-charcoal underline-offset-4 hover:underline p-0';
   }
 
   return (
-    <button className={`${baseStyles} ${className}`} {...props}>
-      <span>{children}</span>
-      {showArrow && (
-        <ArrowRight className={`ml-2 transition-transform group-hover:translate-x-1 ${variant === 'text-link' ? 'w-4 h-4' : 'w-4 h-4'}`} />
-      )}
+    <button className={`${base} ${className}`} {...props}>
+      {children}
     </button>
   );
 }

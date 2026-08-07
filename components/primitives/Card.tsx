@@ -12,8 +12,8 @@ export function Card({ children, className = '' }: CardProps) {
   const { isConsumer } = useSurface();
 
   const styles = isConsumer
-    ? 'bg-white border border-silver/60 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow'
-    : 'bg-graphite/40 border border-silver/10 rounded-lg p-5 hover:border-silver/30 transition-colors text-ivory';
+    ? 'bg-white border border-silver/50 p-6 transition-all hover:border-graphite'
+    : 'bg-[#181A1E] border border-white/10 p-6 transition-all hover:border-white/30 text-ivory';
 
   return <div className={`${styles} ${className}`}>{children}</div>;
 }

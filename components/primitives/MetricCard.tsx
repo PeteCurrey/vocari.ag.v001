@@ -16,20 +16,24 @@ export function MetricCard({ label, value, subtext, sourceStamp, className = '' 
   const { isConsumer } = useSurface();
 
   const containerStyles = isConsumer
-    ? 'bg-white border border-silver/60 rounded-xl p-5 shadow-sm'
-    : 'bg-graphite/40 border border-silver/10 rounded-lg p-4 text-ivory';
-
-  const labelStyles = isConsumer ? 'text-xs uppercase tracking-wider text-graphite/70 font-sans' : 'text-xs uppercase tracking-wider text-silver/60 font-mono';
-  const valueStyles = isConsumer ? 'text-3xl font-display font-bold text-charcoal mt-1' : 'text-2xl font-mono font-semibold text-ivory mt-1';
-  const subtextStyles = isConsumer ? 'text-sm text-graphite mt-1' : 'text-xs text-silver/80 mt-1';
+    ? 'bg-white border border-silver/50 p-6'
+    : 'bg-[#181A1E] border border-white/10 p-6 text-ivory';
 
   return (
     <div className={`${containerStyles} ${className}`}>
-      <div className={labelStyles}>{label}</div>
-      <div className={valueStyles}>{value}</div>
-      {subtext && <div className={subtextStyles}>{subtext}</div>}
+      <div className="text-[10px] font-mono uppercase tracking-widest text-graphite/60 mb-2">
+        {label}
+      </div>
+      <div className={`text-4xl font-sans font-light tracking-tight ${isConsumer ? 'text-charcoal' : 'text-white'}`}>
+        {value}
+      </div>
+      {subtext && (
+        <div className="text-xs text-graphite/80 mt-1.5 font-sans">
+          {subtext}
+        </div>
+      )}
       {sourceStamp && (
-        <div className="mt-3 pt-2 border-t border-silver/20">
+        <div className="mt-4 pt-3 border-t border-silver/30">
           <SourceStamp {...sourceStamp} />
         </div>
       )}

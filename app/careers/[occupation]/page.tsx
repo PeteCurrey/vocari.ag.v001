@@ -48,22 +48,23 @@ export default async function OccupationDetailPage({
       <div className="min-h-screen bg-ivory text-charcoal flex flex-col font-sans">
         
         {/* Navigation */}
-        <header className="border-b border-silver/40 bg-ivory/80 backdrop-blur-md sticky top-0 z-50">
+        <header className="border-b border-silver/40 bg-ivory sticky top-0 z-50">
           <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-cobalt flex items-center justify-center text-white font-mono font-bold text-lg">
-                V
-              </div>
-              <span className="font-display text-2xl font-bold text-charcoal">vocari</span>
+            <Link href="/" className="flex items-center gap-4">
+              <span className="font-sans text-xl font-bold tracking-widest text-charcoal uppercase">VOCARI</span>
+              <span className="hidden sm:inline-block text-silver font-mono text-xs">|</span>
+              <span className="hidden sm:inline-block font-mono text-[10px] uppercase tracking-widest text-graphite/60">
+                PATHWAY SPECIFICATION
+              </span>
             </Link>
 
-            <nav className="hidden md:flex items-center gap-8 font-sans font-medium text-sm text-graphite">
-              <Link href="/careers" className="hover:text-cobalt transition-colors font-medium">← Back to Index</Link>
-              <Link href="/cost" className="hover:text-cobalt transition-colors font-medium">£0 to Qualified Calculator</Link>
+            <nav className="hidden md:flex items-center gap-8 font-mono text-xs uppercase tracking-wider text-graphite">
+              <Link href="/careers" className="hover:text-cobalt transition-colors">← INDEX DIRECTORY</Link>
+              <Link href="/cost" className="hover:text-cobalt transition-colors">FUNDING ENGINE</Link>
             </nav>
 
             <Link href="/cost">
-              <Button variant="primary">Calculate My Cost</Button>
+              <Button variant="primary">CALCULATE COST →</Button>
             </Link>
           </div>
         </header>
@@ -73,18 +74,19 @@ export default async function OccupationDetailPage({
           <div className="max-w-7xl mx-auto space-y-8">
             
             <div className="space-y-4">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-widest">
                 <Badge status={occ.confidence === 'confirmed' ? 'confirmed' : 'provisional'}>
-                  Tier {occ.tier} Verified Pathway
+                  TIER {occ.tier} VERIFIED PATHWAY
                 </Badge>
-                <span className="font-mono text-xs text-graphite/60 uppercase">SOC Code 2020 Mapped</span>
+                <span className="text-silver/40">•</span>
+                <span className="text-graphite/60">SOC CODE 2020 MAPPED</span>
               </div>
 
-              <h1 className="text-4xl md:text-6xl font-display font-bold text-charcoal tracking-tight">
+              <h1 className="text-4xl md:text-6xl font-display text-charcoal tracking-tight">
                 {occ.title}
               </h1>
 
-              <p className="text-lg md:text-xl text-graphite/90 max-w-3xl leading-relaxed">
+              <p className="text-base md:text-lg text-graphite/90 max-w-3xl leading-relaxed font-sans">
                 {occ.summary}
               </p>
             </div>
@@ -92,9 +94,9 @@ export default async function OccupationDetailPage({
             {/* Three Key Hero Metrics */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
               <MetricCard
-                label="Entry Salary"
+                label="NATIONAL ENTRY SALARY"
                 value={`£${occ.salary_entry?.toLocaleString()}`}
-                subtext="National starting benchmark"
+                subtext="Average entry benchmark"
                 sourceStamp={{
                   sourceName: occ.salary_source || 'ONS ASHE 2025',
                   sourceUrl: occ.source_url,
@@ -104,9 +106,9 @@ export default async function OccupationDetailPage({
               />
 
               <MetricCard
-                label="Time to Qualify"
+                label="TYPICAL DURATION"
                 value={`${routesWithSteps[0]?.typical_duration_months || 36} Months`}
-                subtext={routesWithSteps[0]?.earn_while_learning ? 'Earn while learning' : 'Full-time study'}
+                subtext={routesWithSteps[0]?.earn_while_learning ? 'Earn while learning model' : 'Full-time study model'}
                 sourceStamp={{
                   sourceName: routesWithSteps[0]?.source_name || 'IfATE Standard',
                   sourceUrl: routesWithSteps[0]?.source_url,
@@ -116,9 +118,9 @@ export default async function OccupationDetailPage({
               />
 
               <MetricCard
-                label="Typical Cost to You"
+                label="NET FINANCIAL COST"
                 value={`£${routesWithSteps[0]?.typical_cost_gbp_min?.toLocaleString() || '0'}`}
-                subtext="After government funding"
+                subtext="After government funding eligibility"
                 sourceStamp={{
                   sourceName: 'ESFA Adult Skills Fund Policy',
                   sourceUrl: 'https://www.gov.uk/government/organisations/education-and-skills-funding-agency',
@@ -131,27 +133,29 @@ export default async function OccupationDetailPage({
           </div>
         </section>
 
-        {/* SECTION 2: IS THIS YOU? (Honest Downsides & Realities) */}
+        {/* SECTION 2: REALITY AUDIT (Physical Demands & Shifts) */}
         <section className="py-16 px-6 max-w-7xl mx-auto space-y-8 w-full">
           <div>
-            <span className="font-mono text-xs text-cobalt uppercase tracking-widest font-bold">HONEST REALITY CHECK</span>
-            <h2 className="text-3xl font-display font-bold text-charcoal mt-1">
-              Is This Career Right For You?
+            <span className="font-mono text-[10px] text-cobalt uppercase tracking-widest font-medium">
+              OPERATIONAL REALITY AUDIT
+            </span>
+            <h2 className="text-3xl font-display text-charcoal mt-1">
+              Working Environment & Demands
             </h2>
-            <p className="text-graphite text-sm mt-1">
-              We list the physical demands, work patterns, and honest challenges so you can decide with full clarity.
+            <p className="text-graphite text-xs font-mono uppercase tracking-wider mt-1">
+              VERIFIED PHYSICAL CONSTRAINTS AND SHIFT SCHEDULE PATTERNS
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <Card className="space-y-4">
-              <h3 className="text-lg font-bold text-charcoal flex items-center gap-2">
-                <span className="text-coral">⚡</span> Physical Demands
+              <h3 className="text-xs font-mono uppercase tracking-widest text-charcoal font-semibold border-b border-silver/30 pb-3">
+                PHYSICAL DEMANDS & ENVIRONMENT
               </h3>
-              <ul className="space-y-2 text-sm text-graphite">
+              <ul className="space-y-2.5 text-xs text-graphite font-sans">
                 {physicalDemands.map((item: string, idx: number) => (
-                  <li key={idx} className="flex items-start gap-2">
-                    <span className="text-cobalt font-bold">•</span>
+                  <li key={idx} className="flex items-start gap-3">
+                    <span className="text-cobalt font-mono">•</span>
                     <span>{item}</span>
                   </li>
                 ))}
@@ -159,13 +163,13 @@ export default async function OccupationDetailPage({
             </Card>
 
             <Card className="space-y-4">
-              <h3 className="text-lg font-bold text-charcoal flex items-center gap-2">
-                <span className="text-cobalt">⏱</span> Work Patterns & Shifts
+              <h3 className="text-xs font-mono uppercase tracking-widest text-charcoal font-semibold border-b border-silver/30 pb-3">
+                WORK PATTERNS & ROTAS
               </h3>
-              <ul className="space-y-2 text-sm text-graphite">
+              <ul className="space-y-2.5 text-xs text-graphite font-sans">
                 {workPattern.map((item: string, idx: number) => (
-                  <li key={idx} className="flex items-start gap-2">
-                    <span className="text-coral font-bold">•</span>
+                  <li key={idx} className="flex items-start gap-3">
+                    <span className="text-coral font-mono">•</span>
                     <span>{item}</span>
                   </li>
                 ))}
@@ -174,13 +178,15 @@ export default async function OccupationDetailPage({
           </div>
         </section>
 
-        {/* SECTION 3: ROUTES IN (FLAGSHIP PATHWAY VISUALISATION) */}
+        {/* SECTION 3: ROUTES IN (STEPPED PATHWAY SPECIFICATION) */}
         <section className="py-16 px-6 bg-warm-stone/30 border-y border-silver/40">
           <div className="max-w-7xl mx-auto space-y-8">
             <div>
-              <span className="font-mono text-xs text-cobalt uppercase tracking-widest font-bold">FLAGSHIP PATHWAY TRACK</span>
-              <h2 className="text-3xl font-display font-bold text-charcoal mt-1">
-                Routes in to Becoming an {occ.title}
+              <span className="font-mono text-[10px] text-cobalt uppercase tracking-widest font-medium">
+                PATHWAY TRACK ARCHITECTURE
+              </span>
+              <h2 className="text-3xl font-display text-charcoal mt-1">
+                Verified Qualification Routes
               </h2>
             </div>
 
@@ -188,35 +194,35 @@ export default async function OccupationDetailPage({
             <div className="space-y-8">
               {routesWithSteps.map((route, rIdx) => (
                 <Card key={route.id} className="p-8 space-y-6">
-                  <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-silver/40 pb-4 gap-4">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-silver/30 pb-4 gap-4">
                     <div>
-                      <span className="font-mono text-xs text-cobalt font-bold uppercase">Route 0{rIdx + 1}</span>
-                      <h3 className="text-2xl font-bold text-charcoal">{route.label}</h3>
-                      <p className="text-sm text-graphite mt-1">{route.suitability_notes}</p>
+                      <span className="font-mono text-[10px] text-cobalt font-medium uppercase tracking-widest">
+                        ROUTE 0{rIdx + 1} SPECIFICATION
+                      </span>
+                      <h3 className="text-2xl font-medium text-charcoal">{route.label}</h3>
+                      <p className="text-xs text-graphite mt-1">{route.suitability_notes}</p>
                     </div>
 
-                    <div className="flex items-center gap-3 font-mono text-xs">
-                      <span className="bg-ivory border border-silver px-3 py-1.5 rounded-md font-semibold text-charcoal">
-                        Duration: {route.typical_duration_months} Months
+                    <div className="flex items-center gap-3 font-mono text-[11px]">
+                      <span className="border border-silver/50 px-3 py-1 text-charcoal">
+                        DURATION: {route.typical_duration_months} MONTHS
                       </span>
-                      <span className="bg-ivory border border-silver px-3 py-1.5 rounded-md font-semibold text-cobalt">
-                        {route.earn_while_learning ? `Earn £${route.typical_wage_during?.toLocaleString()}/yr` : 'Full-Time Study'}
+                      <span className="border border-silver/50 px-3 py-1 text-cobalt">
+                        {route.earn_while_learning ? `SALARY: £${route.typical_wage_during?.toLocaleString()}/YR` : 'FULL-TIME STUDY'}
                       </span>
                     </div>
                   </div>
 
                   {/* Horizontal Stepped Nodes */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {route.steps.map((step: any, sIdx: number) => (
-                      <div key={step.id} className="bg-white p-5 rounded-xl border border-silver/60 space-y-3 relative shadow-2xs">
-                        <div className="flex items-center justify-between">
-                          <span className="font-mono text-xs text-cobalt font-bold">STEP 0{sIdx + 1}</span>
-                          <Badge status={step.confidence === 'confirmed' ? 'confirmed' : 'provisional'}>
-                            {step.duration_months} Mths
-                          </Badge>
+                      <div key={step.id} className="bg-white p-5 border border-silver/50 space-y-3">
+                        <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-widest">
+                          <span className="text-cobalt font-medium">STEP 0{sIdx + 1}</span>
+                          <span className="text-graphite/60">{step.duration_months} MONTHS</span>
                         </div>
 
-                        <h4 className="font-bold text-charcoal text-base">{step.label}</h4>
+                        <h4 className="font-sans font-medium text-charcoal text-sm">{step.label}</h4>
 
                         <SourceStamp
                           sourceName={step.source_name}
@@ -237,30 +243,32 @@ export default async function OccupationDetailPage({
         {regReqs.length > 0 && (
           <section className="py-16 px-6 max-w-7xl mx-auto space-y-6 w-full">
             <div>
-              <span className="font-mono text-xs text-coral uppercase tracking-widest font-bold">STATUTORY REGULATION</span>
-              <h2 className="text-3xl font-display font-bold text-charcoal mt-1">
-                Registration & Mandatory Requirements
+              <span className="font-mono text-[10px] text-coral uppercase tracking-widest font-medium">
+                STATUTORY COMPLIANCE
+              </span>
+              <h2 className="text-3xl font-display text-charcoal mt-1">
+                Mandatory Regulatory Requirements
               </h2>
             </div>
 
             <div className="space-y-4">
               {regReqs.map((rr) => (
-                <Card key={rr.id} className="p-6 border border-silver/60 bg-white space-y-3">
+                <Card key={rr.id} className="p-6 space-y-3">
                   <div className="flex items-center justify-between">
-                    <h3 className="text-xl font-bold text-charcoal">{rr.title}</h3>
-                    <Badge status="confirmed">Statutory Requirement</Badge>
+                    <h3 className="text-xl font-medium text-charcoal">{rr.title}</h3>
+                    <Badge status="confirmed">STATUTORY MANDATE</Badge>
                   </div>
 
-                  <p className="text-sm text-graphite leading-relaxed">{rr.description}</p>
+                  <p className="text-xs text-graphite leading-relaxed font-sans">{rr.description}</p>
 
-                  <div className="pt-3 border-t border-silver/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-mono">
-                    <div className="text-coral font-semibold">
-                      ⚠️ NOTICE: Always confirm registration status directly with {rr.body_name}.
+                  <div className="pt-3 border-t border-silver/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-[10px] font-mono uppercase tracking-widest">
+                    <div className="text-coral">
+                      NOTICE: ALWAYS CONFIRM REGISTRATION DIRECTLY WITH {rr.body_name}.
                     </div>
 
                     {rr.body_url && (
-                      <a href={rr.body_url} target="_blank" rel="noopener noreferrer" className="text-cobalt font-bold hover:underline">
-                        Visit {rr.body_name} Official Register →
+                      <a href={rr.body_url} target="_blank" rel="noopener noreferrer" className="text-cobalt hover:underline">
+                        VISIT {rr.body_name} OFFICIAL REGISTER ↗
                       </a>
                     )}
                   </div>
